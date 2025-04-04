@@ -16,12 +16,19 @@ function Navbar() {
             to="/"
             className="text-gray-300 hover:text-pink-400 transition duration-300 font-medium"
           >
+            <Link to="/login" className="text-white px-4">Login</Link>
+<Link to="/SignUp" className="text-white px-4">Signup</Link>
+
             Home
           </Link>
           <Link
             to="/about"
             className="text-gray-300 hover:text-purple-400 transition duration-300 font-medium"
           >
+            <Link to="/adminupload" className="text-white hover:text-purple-400">
+  Admin Upload
+</Link>
+
             About
           </Link>
           <Link
