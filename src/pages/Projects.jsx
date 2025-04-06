@@ -1,77 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
-// dummy data
-const allProjects = [
-  { title: "ML-based Disease Detector", year: "Final", domain: "ML", dept: "COMP" },
-  { title: "Online Voting App", year: "Mini", domain: "App", dept: "IT" },
-  { title: "Smart Embedded Car", year: "Final", domain: "Embedded", dept: "ENTC" },
-  // Add more dummy projects
-];
+const Projects = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const department = queryParams.get("dept") || "COMP";
 
-const getQuery = (search) => Object.fromEntries(new URLSearchParams(search));
+  const [projects, setProjects] = useState([]);
+  const [year, setYear] = useState("");
+  const [type, setType] = useState("");
 
-function Projects() {
-  const { search } = useLocation();
-  const query = getQuery(search);
-  const [filteredProjects, setFilteredProjects] = useState(allProjects);
-
-  const [filters, setFilters] = useState({
-    year: "",
-    domain: "",
-    dept: query.dept || "",
-  });
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/projects/filter", {
+        params: {
+          department,
+          year,
+          type,
+        },
+      });
+      setProjects(response.data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
 
   useEffect(() => {
-    const filtered = allProjects.filter((p) =>
-      (!filters.year || p.year === filters.year) &&
-      (!filters.domain || p.domain === filters.domain) &&
-      (!filters.dept || p.dept === filters.dept)
-    );
-    setFilteredProjects(filtered);
-  }, [filters]);
+    fetchProjects();
+  }, [department, year, type]);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4 text-center">Projects</h2>
+    <div className="p-6 bg-[#0b0e1c] min-h-screen text-white font-sans">
+      <div className="mb-6">
+        <h2 className="text-3xl font-bold mb-2">
+          Projects for {department} Department
+        </h2>
 
-      {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <select onChange={(e) => setFilters({ ...filters, year: e.target.value })} className="p-2 rounded border">
-          <option value="">All Years</option>
-          <option value="Mini">Mini Project</option>
-          <option value="Final">Final Year Project</option>
-        </select>
-        <select onChange={(e) => setFilters({ ...filters, domain: e.target.value })} className="p-2 rounded border">
-          <option value="">All Domains</option>
-          <option value="App">App</option>
-          <option value="Web">Web</option>
-          <option value="Embedded">Embedded</option>
-          <option value="ML">ML</option>
-        </select>
-        <select onChange={(e) => setFilters({ ...filters, dept: e.target.value })} className="p-2 rounded border">
-          <option value="">All Departments</option>
-          <option value="COMP">COMP</option>
-          <option value="IT">IT</option>
-          <option value="ENTC">ENTC</option>
-          <option value="AIDS">AIDS</option>
-          <option value="ECE">ECE</option>
-        </select>
+        {/* Filters */}
+        <div className="flex flex-wrap gap-4 items-center">
+          <input
+            type="number"
+            placeholder="Year"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            className="px-4 py-2 rounded bg-white text-black"
+          />
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="px-4 py-2 rounded bg-white text-black"
+          >
+            <option value="">All Types</option>
+            <option value="mini">Mini Project</option>
+            <option value="final">Final Year</option>
+          </select>
+        </div>
       </div>
 
-      {/* Projects */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredProjects.map((project, index) => (
-          <div key={index} className="bg-white shadow rounded-lg p-4">
-            <h3 className="text-lg font-bold">{project.title}</h3>
-            <p className="text-sm text-gray-600">Dept: {project.dept}</p>
-            <p className="text-sm text-gray-600">Year: {project.year}</p>
-            <p className="text-sm text-gray-600">Domain: {project.domain}</p>
+      {/* Project Cards */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <div
+            key={project.id}
+            className="bg-[#1a1d2e] p-4 rounded-xl shadow-md border border-white/10"
+          >
+            <h3 className="text-xl font-semibold mb-1">{project.projectName}</h3>
+            <p className="text-sm mb-1">
+              <strong>Year:</strong> {project.year}
+            </p>
+            <p className="text-sm mb-1">
+              <strong>Type:</strong> {project.projectType}
+            </p>
+            <p className="text-sm mb-1">
+              <strong>Domain:</strong> {project.domain}
+            </p>
+            <p className="text-sm mt-2 text-gray-300">{project.synopsis}</p>
           </div>
         ))}
       </div>
+
+      {projects.length === 0 && (
+        <p className="mt-10 text-center text-gray-400">
+          No projects found for selected filters.
+        </p>
+      )}
     </div>
   );
-}
+};
 
 export default Projects;

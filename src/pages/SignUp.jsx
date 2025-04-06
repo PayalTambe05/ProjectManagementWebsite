@@ -10,25 +10,26 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    if (role === "admin" && adminKey !== "SECRET_ADMIN_123") {
-      alert("Invalid admin key!");
-      return;
-    }
-
     try {
-      await axios.post("http://localhost:8080/api/auth/signup", {
+      const response = await axios.post("http://localhost:8080/auth/signup", {
         email,
         password,
         role,
+        adminKey: role === "admin" ? adminKey : null,
       });
-
+  
       alert("Signup successful!");
       navigate("/login");
     } catch (error) {
       console.error("Signup error:", error);
-      alert("Signup failed. Check console.");
+      if (error.response && error.response.status === 401) {
+        alert("Invalid admin key!");
+      } else {
+        alert("Signup failed. Please try again.");
+      }
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-[#0b0e1c] flex justify-center items-center text-white">

@@ -10,25 +10,36 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
+      const response = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,
         role,
       });
-
+  
+      const user = response.data; // ✅ define user
+  
       alert("Login successful!");
-
+  
       // Save user info to localStorage if needed
-      localStorage.setItem("user", JSON.stringify(response.data));
-
+      localStorage.setItem("user", JSON.stringify(user));
+  
       // Route based on role
-      if (role === "admin") navigate("/admin");
-      else navigate("/home");
+      console.log("User role from backend:", user.role);
+
+      if (user.role && user.role.toLowerCase() === 'admin') {
+        navigate('/admindashboard');
+      } else {
+        navigate('/home');
+      }
+      
+      
+  
     } catch (error) {
       console.error("Login failed:", error);
       alert("Invalid credentials or role.");
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-[#0b0e1c] flex justify-center items-center text-white">
