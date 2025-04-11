@@ -13,7 +13,10 @@ module.exports = {
       animation: {
         floatBG: 'floatBG 25s ease-in-out infinite',
       },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],
-}
+};

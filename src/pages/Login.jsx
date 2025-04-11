@@ -6,44 +6,43 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const response = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,
         role,
       });
-  
-      const user = response.data; // ✅ define user
-  
-      alert("Login successful!");
-  
-      // Save user info to localStorage if needed
-      localStorage.setItem("user", JSON.stringify(user));
-  
-      // Route based on role
-      console.log("User role from backend:", user.role);
 
-      if (user.role && user.role.toLowerCase() === 'admin') {
-        navigate('/admindashboard');
-      } else {
-        navigate('/home');
+      const { user, redirect } = response.data;
+
+      if (!user || !redirect) {
+        throw new Error("Invalid server response.");
       }
-      
-      
-  
+
+      // Save user in localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+
+      alert("Login successful!");
+
+      // Navigate then reload to refresh navbar state
+      navigate(redirect);
+      setTimeout(() => window.location.reload(), 100); // slight delay to ensure smooth redirect
     } catch (error) {
-      console.error("Login failed:", error);
-      alert("Invalid credentials or role.");
+      console.error("Login error:", error.response?.data || error.message);
+      alert("Login failed. Please check email, password, and role.");
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-[#0b0e1c] flex justify-center items-center text-white">
-      <div className="bg-[#12162e] p-8 rounded-lg w-full max-w-md border border-white/10">
+      <div className="bg-[#12162e] p-8 rounded-lg w-full max-w-md border border-white/10 shadow-lg">
         <h2 className="text-3xl font-bold mb-6 text-center text-purple-300">Login</h2>
 
         <input
@@ -72,9 +71,12 @@ const LoginPage = () => {
 
         <button
           onClick={handleLogin}
-          className="w-full py-2 bg-purple-600 hover:bg-purple-700 rounded font-semibold"
+          className={`w-full py-2 bg-purple-600 hover:bg-purple-700 rounded font-semibold ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </div>
     </div>

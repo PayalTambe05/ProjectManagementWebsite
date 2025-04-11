@@ -26,6 +26,12 @@
     transform: rotate(360deg);
   }
 }
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
@@ -39,4 +45,20 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@layer utilities {
+  @keyframes gradient-slow {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-gradient-slow {
+    background-size: 400% 400%;
+    animation: gradient-slow 15s ease infinite;
+  }
 }
