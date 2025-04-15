@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ParticlesBackground from "../components/ParticlesBackground";
+import StudentProjectUpload from "./StudentProjectUpload";
 import { motion } from "framer-motion";
 
 const departments = [
@@ -12,15 +13,17 @@ const departments = [
 ];
 
 function Home() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [showForm, setShowForm] = useState(false);
+
   return (
-    <div className="relative w-full min-h-screen overflow-hidden text-white bg-gradient-to-br from-[#0b0e1c] via-[#141e30] to-[#243b55] animate-gradient-slow">
-      {/* Optional: Subtle Particle Background Layer */}
+    <div className="relative w-full min-h-screen overflow-hidden text-white bg-gradient-to-br from-[#0b0e1c] via-[#141e30] to-[#243b55]">
       <div className="absolute inset-0 z-0 opacity-20">
         <ParticlesBackground />
       </div>
 
-      {/* Main Content */}
       <div className="relative z-10 px-6 py-20">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -35,7 +38,8 @@ function Home() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 max-w-7xl mx-auto">
+        {/* Department Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 max-w-7xl mx-auto mb-20">
           {departments.map((dept, index) => (
             <motion.div
               key={dept.name}
@@ -60,9 +64,42 @@ function Home() {
             </motion.div>
           ))}
         </div>
-      </div>
-      <div>
-        {/* <Footer /> */}
+
+        {/* Student Upload Section */}
+        {user?.role === "student" && (
+          <div className="mt-10 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <h2 className="text-2xl font-semibold text-white mb-4">
+                Want to showcase your project?
+              </h2>
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+              >
+                {showForm ? "Close Form" : "Add Your Project"}
+              </button>
+            </motion.div>
+
+            {/* Toggleable Form Below Button */}
+            {showForm && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mt-10 max-w-4xl mx-auto bg-[#1b1f3a] border border-white/10 rounded-2xl p-8 shadow-xl"
+              >
+                <h3 className="text-3xl font-bold mb-6 text-cyan-400 text-center">
+                  Upload Your Project
+                </h3>
+                <StudentProjectUpload />
+              </motion.div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

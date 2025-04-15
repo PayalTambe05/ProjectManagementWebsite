@@ -11,6 +11,9 @@ import SignUp from "./pages/SignUp";
 import AdminDashboard from "./pages/AdminDashboard";
 import Footer from "./components/Footer";
 import Profile from "./pages/Profile";
+import StudentProjectUpload from "./pages/StudentProjectUpload";
+import AllProjects from "./pages/AllProjects";
+
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/studentprojectupload" element={<StudentProjectUpload />} />
+            <Route path="/all-projects" element={<AllProjects />} />
+
 
           </Routes>
         </main>
