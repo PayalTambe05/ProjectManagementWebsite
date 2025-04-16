@@ -85,7 +85,7 @@ const Projects = () => {
             label: "All Types",
             value: type,
             set: setType,
-            options: ["mini", "final"],
+            options: ["Mini", "Final"],
           },
         ].map(({ label, value, set, options }, i) => (
           <select

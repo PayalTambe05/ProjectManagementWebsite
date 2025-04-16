@@ -67,37 +67,238 @@ function Home() {
 
         {/* Student Upload Section */}
         {user?.role === "student" && (
-          <div className="mt-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <h2 className="text-2xl font-semibold text-white mb-4">
-                Want to showcase your project?
-              </h2>
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
-              >
-                {showForm ? "Close Form" : "Add Your Project"}
-              </button>
-            </motion.div>
+  <div className="mt-24 relative z-10">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="text-center"
+    >
+      <h2 className="text-4xl font-extrabold text-white tracking-wide mb-4">
+         Showcase Your Innovation
+      </h2>
+      <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
+        Have a cool project? Share it with your peers and get noticed by faculty, recruiters, and tech enthusiasts. Inspire and be inspired.
+      </p>
+      <button
+  onClick={() => setShowForm(!showForm)}
+  className="inline-flex items-center gap-2 px-6 py-3 bg-[#1f2937] text-cyan-300 border border-cyan-500 rounded-xl shadow-md hover:bg-cyan-500 hover:text-white transition-all duration-300 ease-in-out hover:shadow-cyan-500/20"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 4v16m8-8H4"
+    />
+  </svg>
+  {showForm ? "Close Form" : "Add Your Project"}
+</button>
 
-            {/* Toggleable Form Below Button */}
-            {showForm && (
+
+
+    </motion.div>
+
+    {/* Toggleable Upload Form */}
+    {showForm && (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="mt-14 mx-auto max-w-5xl px-6"
+      >
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-2xl">
+          <h3 className="text-3xl font-bold text-cyan-400 mb-6 text-center">
+            📤 Upload Your Project Details
+          </h3>
+          <p className="text-gray-300 text-center mb-8">
+            Fill out the form below with accurate details. Your project will be reviewed and added to the public list.
+          </p>
+
+          {/* Upload Form Component */}
+          <StudentProjectUpload />
+        </div>
+      </motion.div>
+    )}
+
+            {/* Resources Section */}
+            <div className="mt-20">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mt-10 max-w-4xl mx-auto bg-[#1b1f3a] border border-white/10 rounded-2xl p-8 shadow-xl"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-center mb-10"
               >
-                <h3 className="text-3xl font-bold mb-6 text-cyan-400 text-center">
-                  Upload Your Project
-                </h3>
-                <StudentProjectUpload />
+                <h2 className="text-3xl font-bold text-white mb-2">Project Resources</h2>
+                <p className="text-gray-300">Helpful links to explore project ideas, tools, and templates</p>
               </motion.div>
-            )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+                {/* Resource Cards */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+                >
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">IEEE Project Ideas</h3>
+                  <p className="text-gray-300 text-sm mb-4">Explore innovative IEEE-based project topics for engineering students.</p>
+                  <a
+                    href="https://ieeexplore.ieee.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:underline"
+                  >
+                    Visit Site →
+                  </a>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+                >
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">GitHub Student Pack</h3>
+                  <p className="text-gray-300 text-sm mb-4">Free developer tools and learning resources for students.</p>
+                  <a
+                    href="https://education.github.com/pack"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:underline"
+                  >
+                    Visit Site →
+                  </a>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+                >
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">Spring Boot Guide</h3>
+                  <p className="text-gray-300 text-sm mb-4">Step-by-step tutorials to build backend applications with Spring Boot.</p>
+                  <a
+                    href="https://spring.io/guides/gs/spring-boot/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:underline"
+                  >
+                    Visit Site →
+                  </a>
+                </motion.div>
+
+                {/* Additional Resource Cards */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+                >
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">Google Cloud Platform for Students</h3>
+                  <p className="text-gray-300 text-sm mb-4">Access to free credits and tools for cloud development and deployment.</p>
+                  <a
+                    href="https://cloud.google.com/blog/topics/education/announcing-google-cloud-for-students"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:underline"
+                  >
+                    Visit Site →
+                  </a>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+                >
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">Hackathon Guide</h3>
+                  <p className="text-gray-300 text-sm mb-4">A comprehensive guide to preparing for and winning hackathons.</p>
+                  <a
+                    href="https://devpost.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:underline"
+                  >
+                    Visit Site →
+                  </a>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+                >
+                  <h3 className="text-xl font-semibold text-cyan-400 mb-2">Project Management Tools</h3>
+                  <p className="text-gray-300 text-sm mb-4">Explore popular project management tools for team collaboration.</p>
+                  <a
+                    href="https://trello.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:underline"
+                  >
+                    Visit Site →
+                  </a>
+                </motion.div>
+                {/* Arduino Projects */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+          >
+            <h3 className="text-xl font-semibold text-cyan-400 mb-2">Arduino Projects</h3>
+            <p className="text-gray-300 text-sm mb-4">Explore hardware-based projects using Arduino, perfect for beginners and enthusiasts.</p>
+            <a
+              href="https://www.arduino.cc/en/Tutorial/HomePage"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 hover:underline"
+            >
+              Visit Site →
+            </a>
+          </motion.div>
+           {/* Raspberry Pi Projects */}
+           <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+          >
+            <h3 className="text-xl font-semibold text-cyan-400 mb-2">Raspberry Pi Projects</h3>
+            <p className="text-gray-300 text-sm mb-4">Check out a collection of fun and educational projects you can build with Raspberry Pi.</p>
+            <a
+              href="https://projects.raspberrypi.org/en/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 hover:underline"
+            >
+              Visit Site →
+            </a>
+          </motion.div>
+
+          {/* Hackster.io */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="bg-[#1b1f3a] border border-white/10 rounded-2xl p-6 shadow-lg"
+          >
+            <h3 className="text-xl font-semibold text-cyan-400 mb-2">Hackster.io</h3>
+            <p className="text-gray-300 text-sm mb-4">Browse through hardware projects and tutorials from the Hackster community.</p>
+            <a
+              href="https://www.hackster.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 hover:underline"
+            >
+              Visit Site →
+            </a>
+          </motion.div>
+              </div>
+            </div>
           </div>
         )}
       </div>
