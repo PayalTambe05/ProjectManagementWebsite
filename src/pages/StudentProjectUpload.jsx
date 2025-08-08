@@ -1,4 +1,3 @@
-// src/pages/StudentProjectUpload.jsx
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -32,7 +31,11 @@ function StudentProjectUpload() {
     });
 
     try {
-      await axios.post("http://localhost:8080/student-projects/upload", data);
+      await axios.post("http://localhost:8080/api/student/projects", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("✅ Project uploaded successfully!");
     } catch (err) {
       alert("❌ Upload failed. Please try again.");
@@ -54,7 +57,7 @@ function StudentProjectUpload() {
               { name: "synopsis", label: "Synopsis" },
               { name: "githubLink", label: "GitHub Link" },
               { name: "department", label: "Department" },
-              
+              { name: "projectType", label: "Project Type" }, 
             ].map(({ name, label }) => (
               <div key={name}>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
